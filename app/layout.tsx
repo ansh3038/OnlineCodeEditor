@@ -1,9 +1,10 @@
 import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 import "./globals.css";
-import 'bootstrap/dist/css/bootstrap.min.css';
+import "bootstrap/dist/css/bootstrap.min.css";
 import { getServerSession } from "next-auth";
 import SessionProvider from "./components/sessionProvider";
+import NavBar from "./components/navbar";
 const inter = Inter({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
@@ -21,7 +22,11 @@ export default async function RootLayout({
   return (
     <html lang="en">
       <body className={inter.className}>
-        <SessionProvider session = {session}>{children}</SessionProvider></body>
+        <SessionProvider session={session}>
+          <NavBar />
+          {children}
+        </SessionProvider>
+      </body>
     </html>
   );
 }

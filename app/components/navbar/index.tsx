@@ -1,7 +1,7 @@
 "use client"
 import { Button, Container, Nav, Navbar } from "react-bootstrap";
 import { signIn, signOut, useSession } from "next-auth/react";
-
+import User from "../userinfo";
 export default function NavBar() {
   const { data: session } = useSession();
 
@@ -13,10 +13,7 @@ export default function NavBar() {
           <Nav className="ml-auto">
             {session ? (
                <> 
-               {session?.user?.name}
-              <Button variant="primary" onClick={() => signOut()}>
-                Logout
-              </Button>
+                <User user={session}></User>
               </>
             ) : (
               <>

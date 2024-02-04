@@ -25,7 +25,6 @@ export default function Home() {
 
   return (
     <>
-      <NavBar />
       <div className="flex items-center justify-center h-screen ">
         <div className="w-30 mx-10">
           <Form.Control
@@ -47,7 +46,7 @@ export default function Home() {
         <Form.Label></Form.Label>
       </div>
       <footer className="flex items-center justify-content-center flex-col">
-        Built with 💛 &nbsp; by &nbsp;
+        Built by &nbsp;
         <Link href="https://github.com/ansh3038">Ansh Singla</Link>
         <Link href="">Naman Sharma</Link>
       </footer>
