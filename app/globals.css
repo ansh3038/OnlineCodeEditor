@@ -5,3 +5,62 @@
   /* html{
     background-color: black;
   } */
+  .mainWrap {
+    display: grid;
+    grid-template-columns: 230px 1fr;
+    height: 100vh;
+  }
+
+.btn {
+    border: none;
+    padding: 10px;
+    border-radius: 5px;
+    background-color: blue;
+    font-size: 16px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: all 0.3s ease-in-out;
+}
+  .leaveBtn:hover{
+    background: rgb(4, 4, 179);
+  }
+  .leftSide {
+    background: #eff1ff;
+    padding: 16px;
+    color:  black;
+    display: flex;
+    flex-direction: column;
+  }
+
+  .leftInner {
+
+    flex: 1;
+
+  }
+.clientList {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 20px;
+}
+
+.client {
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+  font-weight: bold;
+}
+.username {
+  margin-top: 10px;
+}
+.logo {
+   border-bottom: 1px #424242;
+   padding-bottom: 10px;
+   height: 60px;
+}
+
+.leaveBtn {
+  width: 100%;
+  margin-top: 20px;
+  background: blue;
+}
