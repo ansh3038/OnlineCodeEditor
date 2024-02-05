@@ -5,6 +5,8 @@ import "bootstrap/dist/css/bootstrap.min.css";
 import { getServerSession } from "next-auth";
 import SessionProvider from "./components/sessionProvider";
 import NavBar from "./components/navbar";
+import 'core-js/stable';
+
 const inter = Inter({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
