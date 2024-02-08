@@ -1,3 +1,4 @@
+
 import { redirect, useRouter } from "next/navigation";
 import Link from "next/link";
 import EditorCom from "@/app/components/EditorCom";
@@ -9,6 +10,8 @@ async function editor() {
   if (!session || !session?.user) {
     redirect("/api/auth/signin");
   }
+  
+  
   return (
     <>
       <div className="mainWrap">
@@ -20,10 +23,7 @@ async function editor() {
             </div>
           </div>
           <button className="btn copyBtn">Copy ROOM ID</button>
-          <button className=" btn leaveBtn">
-            {" "}
-            <Link href="/">leave here</Link>
-          </button>
+          <a href="/"><button className=" btn leaveBtn" >Go Back</button></a>
         </div>
         <div className="EditorWrap">
           <EditorCom />
