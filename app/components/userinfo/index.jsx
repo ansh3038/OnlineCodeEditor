@@ -12,24 +12,7 @@ import Modal, { ModalProps } from "react-bootstrap/Modal";
 import { Omit, BsPrefixProps } from "react-bootstrap/esm/helpers";
 import { signOut, useSession } from "next-auth/react";
 import Image from "next/image";
-function MyVerticallyCenteredModal(
-  props: JSX.IntrinsicAttributes &
-    Omit<
-      Omit<
-        DetailedHTMLProps<HTMLAttributes<HTMLDivElement>, HTMLDivElement>,
-        "ref"
-      > & {
-        ref?:
-          | ((instance: HTMLDivElement | null) => void)
-          | RefObject<HTMLDivElement>
-          | null
-          | undefined;
-      },
-      BsPrefixProps<"div"> & ModalProps
-    > &
-    BsPrefixProps<"div"> &
-    ModalProps & { children?: ReactNode }
-) {
+function MyVerticallyCenteredModal(props) {
   return (
     <Modal
       {...props}

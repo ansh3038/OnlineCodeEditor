@@ -21,6 +21,6 @@
       "@/*": ["./*"]
     }
   },
-  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", ".next/types/**/*.ts"],
+  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", ".next/types/**/*.ts", "app/actions/index.js", "app/editor/[...id]/page.tsx", "app/components/EditorCom/index.jsx", "app/api/auth/[...nextauth]/route.js", "app/components/auth/checkAuth.jsx", "app/components/Client/renderList/index.jsx", "app/components/Client/index.jsx", "app/components/navbar/index.jsx", "app/components/socket/config.jsx", "app/components/userinfo/index.jsx", "app/layout.tsx", "app/page.tsx"],
   "exclude": ["node_modules"]
 }
