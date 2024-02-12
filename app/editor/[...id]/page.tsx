@@ -6,47 +6,54 @@ import { useEffect, useRef, useState } from "react";
 import { initSocket } from "@/app/components/socket/config";
 import ACTIONS from "@/app/actions";
 import Client from "@/app/components/Client";
-import { actionAsyncStorage } from "next/dist/client/components/action-async-storage.external";
 
 function editor() {
-  const socketRef = initSocket;
+  const socketRef = useRef(initSocket);
   const codeRef = useRef(null);
   const { id } = useParams();
   const [clients, setClients] = useState([]);
   const { data: session } = useSession();
-
+  const [socketId, setSocketId] = useState(initSocket.id);
+  // console.log(id[0]);
   useEffect(() => {
     const init =() => {
-      socketRef.on("connect_error", (err) => handleError(err));
-      socketRef.on("connect_failed", (err) => handleError(err));
+      socketRef.current.on("connect_error", (err) => handleError(err));
+      socketRef.current.on("connect_failed", (err) => handleError(err));
 
       function handleError(e) {
-        console.log(e);
         redirect("/");
       }
-
-      socketRef.emit(ACTIONS.JOIN, {
-        id,
+      const roomId = id[0];
+      socketRef.current.emit(ACTIONS.JOIN, {
+        roomId,
         username: session?.user,
       });
 
-      socketRef.on(
+      socketRef.current.on("socketID", (socket)=>{
+        setSocketId(socket);
+      })
+
+      socketRef.current.on(
         ACTIONS.JOINED,
         ({ clients, username, socketId }) => {
-
           setClients(clients);
-          socketRef.emit(ACTIONS.SYNC_CODE, {
+          socketRef.current.emit(ACTIONS.SYNC_CODE, {
             code: codeRef.current,
             socketId,
           });
         }
       );
+      socketRef.current.on(
+        "hellohello",
+        ({ code }) => {
+        }
+      );
     };
     init();
     return () => {
-      // socketRef.disconnect();
-      // socketRef.off(ACTIONS.JOINED);
-      // socketRef.off(ACTIONS.DISCONNECTED);
+      // socketRef.current.disconnect();
+      // socketRef.current.off(ACTIONS.JOINED);
+      // socketRef.current.off(ACTIONS.DISCONNECTED);
     }
   }, []);
 
@@ -54,8 +61,6 @@ function editor() {
   if (!session || !session?.user) {
     redirect("/api/auth/signin");
   }
-  console.log(id[0]);
-
   return (
     <>
       <div className="mainWrap">
@@ -79,6 +84,7 @@ function editor() {
             onCodeChange={(code:any) => {
               codeRef.current = code;
             }}
+            socketId = {socketId}
           />
         </div>
       </div>

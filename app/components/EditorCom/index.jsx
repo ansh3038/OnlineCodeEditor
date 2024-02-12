@@ -9,10 +9,10 @@ import "codemirror/mode/clike/clike";
 import ACTIONS from "@/app/actions";
 import { initSocket } from "../socket/config";
 
-const EditorCom = ({ roomId, onCodeChange }) => {
+const EditorCom = ({ roomId, onCodeChange, socketId }) => {
   const editorRef = useRef(null);
   const initSocketRef = useRef(initSocket);
-
+  console.log("socket id ",socketId)
   useEffect(() => {
     function init() {
       const textarea = document.getElementById("realtimeEditor");
@@ -34,21 +34,26 @@ const EditorCom = ({ roomId, onCodeChange }) => {
           initSocketRef.current.emit(ACTIONS.CODE_CHANGE, {
             roomId,
             code,
+            socketId
           });
         }
       });
     }
+    if(!editorRef.current){
     init();
-    const socket = initSocketRef.current;
+    }
 
-    socket.on(ACTIONS.CODE_CHANGE, ({ code }) => {
-      if (code !== null) {
-        editorRef.current.setValue(code);
-      }
-    });
+    
 
-  }, [initSocketRef.current]); 
+  }, []); 
 
+  const socket = initSocketRef.current;
+  socket.on("hellohello", ({ code }) => {
+    console.log("hello called");
+    if (code !== null) {
+      editorRef.current.setValue(code);
+    }
+  });
   
   // useEffect(() => {
     
