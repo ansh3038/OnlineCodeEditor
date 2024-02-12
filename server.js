@@ -8,16 +8,21 @@ const ACTIONS = require('./app/actions/index');
 
 const userSocketMap = {};
 function getAllConnectedClients(roomId) {
-  // Map
-  return Array.from(io.sockets.adapter.rooms.get(roomId) || []).map(
-      (socketId) => {
-          return {
-              socketId,
-              username: userSocketMap[socketId],
-          };
-      }
-  );
+  const room = io.sockets.adapter.rooms.get(roomId);
+  if (!room) {
+    return [];
+  }
+  const arr =  new Set(Array.from(room).map((socketId) => {
+    return {
+      socketId,
+      username: userSocketMap[socketId],
+    };
+  }));
+  console.log(arr);
+  return [...arr];
+
 }
+
 
 io.on("connection", (socket) => {
   socket.on(ACTIONS.JOIN, ({ roomId, username }) => {

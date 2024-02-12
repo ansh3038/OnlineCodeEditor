@@ -12,7 +12,7 @@ import Modal, { ModalProps } from "react-bootstrap/Modal";
 import { Omit, BsPrefixProps } from "react-bootstrap/esm/helpers";
 import { signOut, useSession } from "next-auth/react";
 import Image from "next/image";
-function MyVerticallyCenteredModal(props) {
+function MyVerticallyCenteredModal( props) {
   return (
     <Modal
       {...props}

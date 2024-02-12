@@ -1,5 +1,3 @@
-"use client"; // Not sure what this line is intended for, but it seems unnecessary in a React component file.
-
 import React, { useEffect, useRef } from "react";
 import Codemirror from "codemirror";
 import "codemirror/mode/javascript/javascript";
@@ -8,14 +6,17 @@ import "codemirror/lib/codemirror.css";
 import "codemirror/addon/edit/closetag";
 import "codemirror/addon/edit/closebrackets.js";
 import "codemirror/mode/clike/clike";
-const EditorCom = ({ socketRef, roomId, onCodeChange }) => {
+import ACTIONS from "@/app/actions";
+import { initSocket } from "../socket/config";
+
+const EditorCom = ({ roomId, onCodeChange }) => {
   const editorRef = useRef(null);
+  const initSocketRef = useRef(initSocket);
 
   useEffect(() => {
-    // Initialize CodeMirror in the useEffect hook
-    const textarea = document.getElementById("realtimeEditor");
-    if (textarea instanceof HTMLTextAreaElement) {
-      const editor = Codemirror.fromTextArea(textarea, {
+    function init() {
+      const textarea = document.getElementById("realtimeEditor");
+      editorRef.current = Codemirror.fromTextArea(textarea, {
         mode: "text/x-java", // Use 'name' property instead of 'name'
         theme: "dracula",
         autoCloseTags: true,
@@ -23,22 +24,45 @@ const EditorCom = ({ socketRef, roomId, onCodeChange }) => {
         lineNumbers: true,
         indentWithTabs: true,
       });
+      editorRef.current.setSize("100%", "100%");
 
-      editor.setSize("100%", "100%");
-      // Cleanup function to remove CodeMirror instance when component unmounts
-      return () => {
-        editor.toTextArea(); // Dispose CodeMirror instance
-      };
+      editorRef.current.on("change", (instance, changes) => {
+        const { origin } = changes;
+        const code = instance.getValue();
+        onCodeChange(code);
+        if (origin !== "setValue") {
+          initSocketRef.current.emit(ACTIONS.CODE_CHANGE, {
+            roomId,
+            code,
+          });
+        }
+      });
     }
-  }, []); // Dependency array is empty because this effect runs only once on component mount
+    init();
+    const socket = initSocketRef.current;
 
+    socket.on(ACTIONS.CODE_CHANGE, ({ code }) => {
+      if (code !== null) {
+        editorRef.current.setValue(code);
+      }
+    });
+
+  }, [initSocketRef.current]); 
+
+  
+  // useEffect(() => {
+    
+
+  //   return () => {
+  //     // Cleanup logic, if needed
+  //     // socket.off(ACTIONS.CODE_CHANGE);
+  //   };
+  // }, [initSocketRef.current]); 
+
+ 
   return (
-    // Using defaultValue prop for initial value of textarea
-    <textarea
-      id="realtimeEditor"
-      defaultValue="text here"
-      className="h-100"
-    ></textarea>
+    // Using defaultValue prop for the initial value of textarea
+    <textarea id="realtimeEditor" defaultValue="text here"/>
   );
 };
 

@@ -6,37 +6,36 @@ import { useEffect, useRef, useState } from "react";
 import { initSocket } from "@/app/components/socket/config";
 import ACTIONS from "@/app/actions";
 import Client from "@/app/components/Client";
+import { actionAsyncStorage } from "next/dist/client/components/action-async-storage.external";
 
 function editor() {
-  const socketRef = useRef(null);
+  const socketRef = initSocket;
   const codeRef = useRef(null);
   const { id } = useParams();
   const [clients, setClients] = useState([]);
   const { data: session } = useSession();
 
   useEffect(() => {
-    const init = async () => {
-      socketRef.current = await initSocket();
-      socketRef.current.on("connect_error", (err) => handleError(err));
-      socketRef.current.on("connect_failed", (err) => handleError(err));
+    const init =() => {
+      socketRef.on("connect_error", (err) => handleError(err));
+      socketRef.on("connect_failed", (err) => handleError(err));
 
       function handleError(e) {
         console.log(e);
         redirect("/");
       }
 
-      socketRef.current.emit(ACTIONS.JOIN, {
+      socketRef.emit(ACTIONS.JOIN, {
         id,
         username: session?.user,
       });
 
-      socketRef.current.on(
+      socketRef.on(
         ACTIONS.JOINED,
         ({ clients, username, socketId }) => {
-          if (username != session.user) {
-          }
+
           setClients(clients);
-          socketRef.current.emit(ACTIONS.SYNC_CODE, {
+          socketRef.emit(ACTIONS.SYNC_CODE, {
             code: codeRef.current,
             socketId,
           });
@@ -44,10 +43,18 @@ function editor() {
       );
     };
     init();
+    return () => {
+      // socketRef.disconnect();
+      // socketRef.off(ACTIONS.JOINED);
+      // socketRef.off(ACTIONS.DISCONNECTED);
+    }
   }, []);
+
+  //Checking whether user signed in or not
   if (!session || !session?.user) {
     redirect("/api/auth/signin");
   }
+  console.log(id[0]);
 
   return (
     <>
@@ -56,7 +63,7 @@ function editor() {
           <div className="leftInner">
             <h3>Connected</h3>
             <div className="clientList">
-              {clients.map((client) => (
+              {clients.map((client : {socketId:any, username:any}) => (
                 <Client key={client.socketId} username={client.username.name} />
               ))}
             </div>
@@ -68,9 +75,8 @@ function editor() {
         </div>
         <div className="EditorWrap h-screen">
           <EditorCom
-            socketRef={socketRef}
-            roomId={id}
-            onCodeChange={(code) => {
+            roomId={id[0]}
+            onCodeChange={(code:any) => {
               codeRef.current = code;
             }}
           />
