@@ -48,7 +48,7 @@ const EditorCom = ({ roomId, onCodeChange, socketId }) => {
   }, []); 
 
   const socket = initSocketRef.current;
-  socket.on("hellohello", ({ code }) => {
+  socket.on("codeset", ({ code }) => {
     console.log("hello called");
     if (code !== null) {
       editorRef.current.setValue(code);

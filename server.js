@@ -49,7 +49,7 @@ io.on("connection", (socket) => {
     // const otherSocketIds = new Set([...clients].filter((id) => id != socket.id));
     // console.log(otherSocketIds);
     // otherSocketIds.forEach((socketId) => {
-      socket.broadcast.to(roomId).emit("hellohello", { code });
+      socket.broadcast.to(roomId).emit("codeset", { code });
     // });
   });
 

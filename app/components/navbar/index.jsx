@@ -5,7 +5,7 @@ import User from "../userinfo";
 import { redirect } from "next/navigation";
 export default function NavBar() {
   const { data: session } = useSession();
-
+  console.log(session);
   return (
     <>
       <Navbar bg="primary" data-bs-theme="dark">
