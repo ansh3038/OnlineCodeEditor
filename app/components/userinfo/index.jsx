@@ -27,7 +27,7 @@ function MyVerticallyCenteredModal( props) {
         >
           <div className="items-center flex justify-between mx-auto">
             <div><Image
-              src={props.session?.user?.image}
+              src={props.session?.user?.picture}
               alt={props.session?.user?.name}
               width={60}
               height={60}
@@ -58,7 +58,7 @@ export default function App() {
     <>
       <Button variant="primary" onClick={() => setModalShow(true)}>
         <Image
-          src={session?.user?.image}
+          src={session?.user?.picture}
           alt={session?.user?.name}
           width={20}
           height={20}

@@ -28,7 +28,7 @@ export async function POST(request) {
     // // Save the user to the database
     await user.save();
 
-    return NextResponse.json({ msg:"user", user:username }, { status: 201 },);
+    return NextResponse.json({ msg:"user", user }, { status: 201 },);
   } catch (error) {
     console.error("Error creating user:", error);
     return NextResponse.json(
