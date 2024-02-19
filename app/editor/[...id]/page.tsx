@@ -79,6 +79,31 @@ function editor() {
           </a>
         </div>
         <div className="EditorWrap h-screen">
+
+            <div className="Language-Theme d-flex  justify-content-between mb-2" >
+                <div className="LanguageSelect w-25 ">
+                    <label className="visually-hidden" htmlFor="Lang_Option">Preference</label>
+                    <select className="form-select" id="Lang_Option">
+                                
+                                <option value="Java">Java</option>
+                                <option value="Cpp">Cpp</option>
+                                <option value="C">C</option>
+                                <option value="Python">Python</option>
+                    </select>
+                </div>
+
+
+                <div className="ThemeSelect w-25 ">
+                    <label className="visually-hidden" htmlFor="Theme">Preference</label>
+                    <select className="form-select" id="Theme">
+                              
+                                <option value="dracula.css">Dracula</option>
+                                <option value="3024-day.css">Daymode</option>
+                                <option value="midnight.css">Midnight</option>
+                                <option value="elegant.css">Elegant</option>
+                    </select>
+                </div>
+            </div>
           <EditorCom
             roomId={id[0]}
             onCodeChange={(code:any) => {
