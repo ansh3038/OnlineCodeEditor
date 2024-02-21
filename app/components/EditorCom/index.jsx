@@ -1,29 +1,30 @@
 import React, { useEffect, useRef } from "react";
 import Codemirror from "codemirror";
 import "codemirror/mode/javascript/javascript";
-
-
 import "codemirror/theme/dracula.css";
 import "codemirror/theme/3024-day.css";
 import "codemirror/theme/elegant.css";
 import "codemirror/theme/midnight.css";
 import "codemirror/lib/codemirror.css";
-
 import "codemirror/addon/edit/closetag";
 import "codemirror/addon/edit/closebrackets.js";
 import "codemirror/mode/clike/clike";
+
 import ACTIONS from "@/app/actions";
 import { initSocket } from "../socket/config";
 
 const EditorCom = ({ roomId, onCodeChange, socketId }) => {
+
   const editorRef = useRef(null);
   const initSocketRef = useRef(initSocket);
-  console.log("socket id ",socketId)
+  // console.log("socket id ",socketId)
+
   useEffect(() => {
+    
     function init() {
       const textarea = document.getElementById("realtimeEditor");
       editorRef.current = Codemirror.fromTextArea(textarea, {
-        mode: "text/x-java", // Use 'name' property instead of 'name'
+        mode: "text/x-java",
         theme: "dracula",
         autoCloseTags: true,
         autoCloseBrackets: true,
@@ -31,9 +32,6 @@ const EditorCom = ({ roomId, onCodeChange, socketId }) => {
         indentWithTabs: true,
       });
       editorRef.current.setSize("100%", "100%");
-
-
-
       var option=document.getElementById("Lang_Option");
       console.log(option.value);
 
@@ -101,19 +99,8 @@ const EditorCom = ({ roomId, onCodeChange, socketId }) => {
       editorRef.current.setValue(code);
     }
   });
-  
-  // useEffect(() => {
-    
-
-  //   return () => {
-  //     // Cleanup logic, if needed
-  //     // socket.off(ACTIONS.CODE_CHANGE);
-  //   };
-  // }, [initSocketRef.current]); 
-
  
   return (
-    // Using defaultValue prop for the initial value of textarea
     <textarea id="realtimeEditor" defaultValue="text here"/>
   );
 };

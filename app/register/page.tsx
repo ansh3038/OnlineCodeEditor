@@ -22,11 +22,9 @@ const RegisterForm = () => {
         });
   
         if (response.ok) {
-          // Registration successful
           console.log('Registration successful!');
         } else {
-          // Handle registration error
-          console.error('Registration failed:', await response.text());
+           console.error('Registration failed:', await response.text());
         }
       } catch (error) {
         console.error('Error during registration:', error);

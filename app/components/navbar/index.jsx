@@ -2,9 +2,10 @@
 import { Button, Container, Nav, Navbar } from "react-bootstrap";
 import { signIn, signOut, useSession } from "next-auth/react";
 import User from "../userinfo";
-import { redirect } from "next/navigation";
+import { redirect, useRouter } from "next/navigation";
 export default function NavBar() {
   const { data: session } = useSession();
+  const route = useRouter();
   console.log(session);
   return (
     <>
@@ -25,7 +26,7 @@ export default function NavBar() {
                 >
                   Login
                 </Button>
-                <Button variant="primary" onClick={() => redirect("/register")}>Register</Button>
+                <Button variant="primary" onClick={() => route.push("/register")}>Register</Button>
               </>
             )}
           </Nav>

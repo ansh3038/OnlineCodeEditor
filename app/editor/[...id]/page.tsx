@@ -50,24 +50,20 @@ function editor() {
       );
     };
     init();
-    return () => {
-      // socketRef.current.disconnect();
-      // socketRef.current.off(ACTIONS.JOINED);
-      // socketRef.current.off(ACTIONS.DISCONNECTED);
-    }
   }, []);
 
   //Checking whether user signed in or not
   if (!session || !session?.user) {
     redirect("/api/auth/signin");
   }
+
   return (
     <>
       <div className="mainWrap">
         <div className="leftSide">
           <div className="leftInner">
             <h3>Connected</h3>
-            <div className="clientList">
+            <div className="clientList max-h-[83vh] overflow-y-auto" >
               {clients.map((client : {socketId:any, username:any}) => (
                 <Client key={client.socketId} username={client.username.name} />
               ))}
