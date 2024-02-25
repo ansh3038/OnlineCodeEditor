@@ -43,15 +43,16 @@ io.on("connection", (socket) => {
   });
 
   socket.on(ACTIONS.CODE_CHANGE, ({ roomId, code, socketId }) => {
-    console.log("code change",roomId);
+    // console.log("code change",roomId);
     const clients = getAllConnectedClients(roomId);
-    console.log(socket.id);//
-    // const otherSocketIds = new Set([...clients].filter((id) => id != socket.id));
-    // console.log(otherSocketIds);
-    // otherSocketIds.forEach((socketId) => {
-      socket.broadcast.to(roomId).emit("codeset", { code });
-    // });
+    // console.log(socket.id);
+    socket.broadcast.to(roomId).emit("codeset", { code });
   });
+
+  socket.on("setlang",({roomId,mode} )=>{
+      console.log("Setlang event called on server", roomId, " ", mode);
+      socket.broadcast.to(roomId).emit("getlang",{mode});
+  })
 
   socket.on(ACTIONS.SYNC_CODE, ({ socketId, code }) => {
     io.to(socketId).emit(ACTIONS.CODE_CHANGE, { code });

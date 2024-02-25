@@ -14,13 +14,11 @@ import ACTIONS from "@/app/actions";
 import { initSocket } from "../socket/config";
 
 const EditorCom = ({ roomId, onCodeChange, socketId }) => {
-
   const editorRef = useRef(null);
   const initSocketRef = useRef(initSocket);
   // console.log("socket id ",socketId)
 
   useEffect(() => {
-    
     function init() {
       const textarea = document.getElementById("realtimeEditor");
       editorRef.current = Codemirror.fromTextArea(textarea, {
@@ -32,43 +30,39 @@ const EditorCom = ({ roomId, onCodeChange, socketId }) => {
         indentWithTabs: true,
       });
       editorRef.current.setSize("100%", "100%");
-      var option=document.getElementById("Lang_Option");
+      editorRef.current.setValue("Text Here");
+      var option = document.getElementById("Lang_Option");
       console.log(option.value);
 
-      option.addEventListener("change",function(){
-        if(option.value=="Java"){
-          editorRef.current.setOption("mode","text/x-Java");
+      option.addEventListener("change", function () {
+        if (option.value == "Java") {
+          editorRef.current.setOption("mode", "text/x-java");
+        } else if (option.value == "C") {
+          editorRef.current.setOption("mode", "text/x-csrc");
+        } else if (option.value == "Cpp") {
+          editorRef.current.setOption("mode", "text/x-c++src");
+        } else if (option.value == "Python") {
+          editorRef.current.setOption("mode", "text/x-python");
         }
-        else if(option.value=="C"){
-          editorRef.current.setOption("mode","text/x-csrc");
-        }
-        else if(option.value=="Cpp"){
-          editorRef.current.setOption("mode","text/x-c++src");
-        }
-        else if(option.value=="Python"){
-          editorRef.current.setOption("mode","text/x-python");
-        }
+        const  mode =  editorRef.current.getOption('mode')
+        initSocketRef.current.emit("setlang", {roomId,mode});
+        console.log("lang emit occured", editorRef.current.getOption('mode'));
+      });
 
-      })
+      var themeSelect = document.getElementById("Theme");
 
-      var themeSelect=document.getElementById("Theme");
-      
-      themeSelect.addEventListener("change",function(){
+      themeSelect.addEventListener("change", function () {
         console.log(themeSelect.value);
-        if(themeSelect.value=="3024-day.css"){
-          editorRef.current.setOption("theme","3024-day");
+        if (themeSelect.value == "3024-day.css") {
+          editorRef.current.setOption("theme", "3024-day");
+        } else if (themeSelect.value == "dracula.css") {
+          editorRef.current.setOption("theme", "dracula");
+        } else if (themeSelect.value == "elegant.css") {
+          editorRef.current.setOption("theme", "elegant");
+        } else if (themeSelect.value == "midnight.css") {
+          editorRef.current.setOption("theme", "midnight");
         }
-        else if(themeSelect.value=="dracula.css"){
-          editorRef.current.setOption("theme","dracula");
-        }
-        else if(themeSelect.value=="elegant.css"){
-          editorRef.current.setOption("theme","elegant");
-        }
-        else if(themeSelect.value=="midnight.css"){
-          editorRef.current.setOption("theme","midnight");
-        }
-
-      })
+      });
 
       editorRef.current.on("change", (instance, changes) => {
         const { origin } = changes;
@@ -78,31 +72,47 @@ const EditorCom = ({ roomId, onCodeChange, socketId }) => {
           initSocketRef.current.emit(ACTIONS.CODE_CHANGE, {
             roomId,
             code,
-            socketId
+            socketId,
           });
+        }
+      });
+      const socket = initSocketRef.current;
+
+      socket.on("getlang", ({mode}) =>{
+        console.log("getlang event listende", mode);
+        if(mode == "text/x-java"){
+         option.value = "Java";
+        }
+        else if(mode == "text/x-csrc"){
+          option.value = "C";
+        }
+        else if(mode == "text/x-c++src"){
+          option.value = "Cpp";
+        }
+        else if( mode == "text/x-python"){
+          option.value = "Python";
+        }
+        
+        editorRef.current.setOption("mode", mode);
+
+      })
+
+      socket.on("codeset", ({ code }) => {
+        console.log("hello called");
+        if (code !== null) {
+          editorRef.current.setValue(code);
         }
       });
 
     }
-    if(!editorRef.current){
-    init();
+
+    if (!editorRef.current) {
+      init();
     }
 
-    
+  }, []);
 
-  }, []); 
-
-  const socket = initSocketRef.current;
-  socket.on("codeset", ({ code }) => {
-    console.log("hello called");
-    if (code !== null) {
-      editorRef.current.setValue(code);
-    }
-  });
- 
-  return (
-    <textarea id="realtimeEditor" defaultValue="text here"/>
-  );
+  return <textarea id="realtimeEditor" />;
 };
 
 export default EditorCom;

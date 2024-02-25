@@ -50,7 +50,7 @@ function editor() {
       );
     };
     init();
-  }, []);
+  }, [socketRef.current]);
 
   //Checking whether user signed in or not
   if (!session || !session?.user) {
