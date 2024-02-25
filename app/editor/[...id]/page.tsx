@@ -76,7 +76,7 @@ function editor() {
         </div>
         <div className="EditorWrap h-screen">
 
-            <div className="Language-Theme d-flex  justify-content-between mb-2" >
+            <div className="Language-Theme d-flex  justify-content-between mb-1 mt-1" >
                 <div className="LanguageSelect w-25 ">
                     <label className="visually-hidden" htmlFor="Lang_Option">Preference</label>
                     <select className="form-select" id="Lang_Option">
@@ -98,6 +98,10 @@ function editor() {
                                 <option value="midnight.css">Midnight</option>
                                 <option value="elegant.css">Elegant</option>
                     </select>
+                </div>
+                <div className="d-grid gap-4 d-md-block">
+                    <button className="btn btn-primary mr-4" type="button">Save</button>
+                    <button className="btn btn-primary  mr-4" type="button">Load</button>
                 </div>
             </div>
           <EditorCom
