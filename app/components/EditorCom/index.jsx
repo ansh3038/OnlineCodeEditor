@@ -16,7 +16,6 @@ import { initSocket } from "../socket/config";
 const EditorCom = ({ roomId, onCodeChange, socketId }) => {
   const editorRef = useRef(null);
   const initSocketRef = useRef(initSocket);
-  // console.log("socket id ",socketId)
 
   useEffect(() => {
     function init() {
