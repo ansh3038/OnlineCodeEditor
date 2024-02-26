@@ -5,4 +5,4 @@ const options = {
     reconnection: true,
     transports: ['websocket'],
 };
-export const initSocket = io("/api",options);
+export const initSocket = io("http://localhost:3000/api/",options);

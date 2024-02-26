@@ -7,7 +7,7 @@ import { initSocket } from "@/app/components/socket/config";
 import ACTIONS from "@/app/actions";
 import Client from "@/app/components/Client";
 
-function editor() {
+function Editor() {
   const socketRef = useRef(initSocket);
   const codeRef = useRef("Text here");
   const { id } = useParams();
@@ -164,4 +164,4 @@ function editor() {
   );
 }
 
-export default editor;
+export default Editor;
