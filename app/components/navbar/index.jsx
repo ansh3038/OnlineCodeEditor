@@ -6,7 +6,7 @@ import { redirect, useRouter } from "next/navigation";
 export default function NavBar() {
   const { data: session } = useSession();
   const route = useRouter();
-  console.log(session);
+  // console.log(session);
   return (
     <>
       <Navbar bg="primary" data-bs-theme="dark">

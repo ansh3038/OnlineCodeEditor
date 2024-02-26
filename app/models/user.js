@@ -14,7 +14,6 @@ const UserSchema = new Schema(
       unique: true,
       trim: true,
       lowercase: true,
-      // Add email validation if needed
     },
     password: {
       type: String,
@@ -22,7 +21,6 @@ const UserSchema = new Schema(
       trim: true,
     },
   },
-  { timestamps: true } // Add timestamps for createdAt and updatedAt
 );
 
 const User = mongoose.models.User || mongoose.model("User", UserSchema);

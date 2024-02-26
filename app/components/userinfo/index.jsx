@@ -64,7 +64,7 @@ function MyVerticallyCenteredModal(props) {
 export default function App() {
   const [modalShow, setModalShow] = useState(false);
   const { data: session } = useSession();
-  console.log("session ", session);
+  // console.log("session ", session);
   return (
     <>
       <Button variant="primary" onClick={() => setModalShow(true)}>

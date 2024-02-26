@@ -31,7 +31,6 @@ const EditorCom = ({ roomId, onCodeChange, socketId }) => {
       editorRef.current.setSize("100%", "100%");
       editorRef.current.setValue("Text Here");
       var option = document.getElementById("Lang_Option");
-      console.log(option.value);
 
       option.addEventListener("change", function () {
         if (option.value == "Java") {
@@ -44,14 +43,15 @@ const EditorCom = ({ roomId, onCodeChange, socketId }) => {
           editorRef.current.setOption("mode", "text/x-python");
         }
         const  mode =  editorRef.current.getOption('mode')
+
         initSocketRef.current.emit("setlang", {roomId,mode});
-        console.log("lang emit occured", editorRef.current.getOption('mode'));
+        // console.log("lang emit occured", editorRef.current.getOption('mode'));
       });
 
       var themeSelect = document.getElementById("Theme");
 
       themeSelect.addEventListener("change", function () {
-        console.log(themeSelect.value);
+        // console.log(themeSelect.value);
         if (themeSelect.value == "3024-day.css") {
           editorRef.current.setOption("theme", "3024-day");
         } else if (themeSelect.value == "dracula.css") {
@@ -75,10 +75,8 @@ const EditorCom = ({ roomId, onCodeChange, socketId }) => {
           });
         }
       });
-      const socket = initSocketRef.current;
 
-      socket.on("getlang", ({mode}) =>{
-        console.log("getlang event listende", mode);
+      initSocketRef.current.on("getlang", ({mode}) =>{
         if(mode == "text/x-java"){
          option.value = "Java";
         }
@@ -91,13 +89,11 @@ const EditorCom = ({ roomId, onCodeChange, socketId }) => {
         else if( mode == "text/x-python"){
           option.value = "Python";
         }
-        
         editorRef.current.setOption("mode", mode);
 
       })
 
-      socket.on("codeset", ({ code }) => {
-        console.log("hello called");
+      initSocketRef.current.on("codeset", ({ code }) => {
         if (code !== null) {
           editorRef.current.setValue(code);
         }

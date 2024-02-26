@@ -1,4 +1,5 @@
 "use client"
+import { redirect } from 'next/navigation';
 import { useState } from 'react';
 
 const RegisterForm = () => {
@@ -22,13 +23,15 @@ const RegisterForm = () => {
         });
   
         if (response.ok) {
-          console.log('Registration successful!');
+          // console.log('Registration successful!');
         } else {
            console.error('Registration failed:', await response.text());
         }
       } catch (error) {
         console.error('Error during registration:', error);
       }
+
+    redirect('/');
     };
 
   return (

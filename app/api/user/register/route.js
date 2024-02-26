@@ -5,10 +5,10 @@ import { NextResponse } from "next/server";
 export async function POST(request) {
   try {
   const {username, email,password} = await request.json();
-  console.log(username);
+  // console.log(username);
     // Connect to MongoDB
     await connectMongoDB();
-    console.log("Connected to database");
+    // console.log("Connected to database");
     // Check if the user already exists
     const userCheck = await User.findOne({ username });
     if(userCheck){

@@ -9,7 +9,7 @@ import Client from "@/app/components/Client";
 
 function editor() {
   const socketRef = useRef(initSocket);
-  const codeRef = useRef(null);
+  const codeRef = useRef("Text here");
   const { id } = useParams();
   const [clients, setClients] = useState([]);
   const { data: session } = useSession();
@@ -57,6 +57,53 @@ function editor() {
     redirect("/api/auth/signin");
   }
 
+  const saveCode = async () => {
+      console.log("save function called");
+      console.log(session.user?.name);
+      try {
+        const username = session?.user?.name;
+        const code = codeRef.current;
+        console.log("code ", code);
+        const response = await fetch('/api/code', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({
+            username,
+            code
+          }),
+        });
+        if(response.ok){
+
+        }
+      } catch (error) {
+        
+      }
+  }
+
+  const loadCode = async () => {
+    console.log("load function called");
+    const username = session.user?.name;
+    try {
+        const response = await fetch(`/api/code?username=${username}`, {
+            method: 'GET',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+        });
+
+        if (response.ok) {
+            console.log("inside response if");
+            const { code } = await response.json();
+            codeRef.current = code;
+        }
+    } catch (e) {
+        console.error("Error loading code:", e);
+    }
+}
+
+
   return (
     <>
       <div className="mainWrap">
@@ -100,8 +147,8 @@ function editor() {
                     </select>
                 </div>
                 <div className="d-grid gap-4 d-md-block">
-                    <button className="btn btn-primary mr-4" type="button">Save</button>
-                    <button className="btn btn-primary  mr-4" type="button">Load</button>
+                    <button className="btn btn-primary mr-4" type="button" onClick={() => saveCode()}>Save</button>
+                    <button className="btn btn-primary  mr-4" type="button" onClick={() => loadCode()}>Load</button>
                 </div>
             </div>
           <EditorCom
