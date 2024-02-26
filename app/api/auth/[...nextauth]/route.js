@@ -29,7 +29,7 @@ export const authOptions = {
             return null;
           }
           // Now you can use the 'user' data as needed
-          // console.log(user);
+          //  (user);
           // Any object returned will be saved in `user` property of the JWT
           const user1 = {
             name: user.username,
