@@ -3,6 +3,7 @@ import GithubProvider from "next-auth/providers/github";
 import CredentialsProvider from "next-auth/providers/credentials";
 import connectMongoDB from "@/app/lib/mongodb";
 import User from "@/app/models/user";
+import bcrypt from bcrypt;
 
 export const authOptions = {
   providers: [
@@ -24,8 +25,7 @@ export const authOptions = {
           if (!user) {
             return null;
           }
-          const encrypt = password;
-          if (encrypt !== password) {
+          if (!bcrypt.compareSync(password, user.password)) {
             return null;
           }
           // Now you can use the 'user' data as needed

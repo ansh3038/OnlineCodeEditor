@@ -31,7 +31,7 @@ const RegisterForm = () => {
         console.error('Error during registration:', error);
       }
 
-    redirect('/');
+    redirect("/");
     };
 
   return (

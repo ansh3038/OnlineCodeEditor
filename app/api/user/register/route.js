@@ -16,7 +16,7 @@ export async function POST(request) {
 
     }
     // // Placeholder for password encryption (replace with actual encryption logic)
-    const encrypt = password;
+    const encrypt = bcrypt.hashSync(password,12);
 
     // // Create a new user instance
     const user = new User({

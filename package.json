@@ -16,6 +16,7 @@
     "@types/codemirror": "^5.60.15",
     "@uiw/codemirror-theme-dracula": "^4.21.21",
     "@uiw/codemirror-themes": "^4.21.21",
+    "bcrypt": "^5.1.1",
     "bootstrap": "^5.3.2",
     "codemirror": "^5.65.16",
     "core-js": "^3.35.1",
