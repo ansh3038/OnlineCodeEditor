@@ -1,11 +1,13 @@
 "use client";
 import { redirect, useParams, useRouter } from "next/navigation";
 import EditorCom from "@/app/components/EditorCom";
+import toast from 'react-hot-toast';
 import { useSession } from "next-auth/react";
 import { useEffect, useRef, useState } from "react";
 import { initSocket } from "@/app/components/socket/config";
 import ACTIONS from "@/app/actions";
 import Client from "@/app/components/Client";
+import Link from "next/link";
 
 function Editor() {
   const socketRef = useRef(initSocket);
@@ -54,7 +56,7 @@ function Editor() {
     redirect("/api/auth/signin");
   }
 
-  const setEditorRefToParent = (editorRef) => {
+  const setEditorRefToParent = (editorRef: null) => {
     parentEditorRef.current = editorRef;
   };
 
@@ -106,6 +108,16 @@ function Editor() {
       console.log("Error loading code:", e);
     }
   };
+  async function copyRoomId() {
+    try {
+        await navigator.clipboard.writeText(id);
+        toast.success('Room ID has been copied to your clipboard');
+        console.log("copied");
+    } catch (err) {
+        toast.error('Could not copy the Room ID');
+        console.error(err);
+    }
+}
 
   return (
     <>
@@ -119,10 +131,10 @@ function Editor() {
               ))}
             </div>
           </div>
-          <button className="btn copyBtn">Copy ROOM ID</button>
-          <a href="/">
+          <button className="btn copyBtn" onClick={copyRoomId}>Copy ROOM ID</button>
+          <Link href="/">
             <button className="btn leaveBtn">Go Back</button>
-          </a>
+          </Link>
         </div>
         <div className="EditorWrap h-screen">
           <div className="Language-Theme d-flex  justify-content-between mb-1 mt-1">
@@ -181,3 +193,7 @@ function Editor() {
 }
 
 export default Editor;
+function setCode(code: any) {
+  throw new Error("Function not implemented.");
+}
+
