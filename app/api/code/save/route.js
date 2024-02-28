@@ -5,7 +5,7 @@ import { NextRequest, NextResponse } from "next/server";
 
 export async function POST(request){
     try{
-        console.log(" inside api/code")
+        console.log(" inside api/code/save")
         const data = await request.json();
         const {username,code} = data;
         await connectMongoDB(); 
@@ -29,23 +29,23 @@ export async function POST(request){
 
     }
 }
-export async function GET(request){
-        try {
-            const data = await request.json();
-            console.log("request ", data);
-            const username = "";
-            console.log(username);
-            await connectMongoDB();
-            const codeCheck = await Code.findOne({username});
-            if(!codeCheck){
-                return NextResponse.json({msg:"Code Not found"}, {status:404});
-            }
-            return NextResponse.json({code:codeCheck.code,msg:"Code found"},{status:201});
+// export async function GET(request){
+//         try {
+//             const data = await request.json();
+//             console.log("request ", data);
+//             const username = "";
+//             console.log(username);
+//             await connectMongoDB();
+//             const codeCheck = await Code.findOne({username});
+//             if(!codeCheck){
+//                 return NextResponse.json({msg:"Code Not found"}, {status:404});
+//             }
+//             return NextResponse.json({code:codeCheck.code,msg:"Code found"},{status:201});
             
-        } catch (error) {
-            console.log("GET ERROR")
-            console.log(error);
-            return NextResponse.json({msg:"Internal Server error"}, {status:500});
+//         } catch (error) {
+//             console.log("GET ERROR")
+//             console.log(error);
+//             return NextResponse.json({msg:"Internal Server error"}, {status:500});
             
-        }
-}
+//         }
+// }

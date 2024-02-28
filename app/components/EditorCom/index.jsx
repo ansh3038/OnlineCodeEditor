@@ -13,7 +13,7 @@ import "codemirror/mode/clike/clike";
 import ACTIONS from "@/app/actions";
 import { initSocket } from "../socket/config";
 
-const EditorCom = ({ roomId, onCodeChange, socketId }) => {
+const EditorCom = ({ roomId, onCodeChange, socketId, setEditorRefToParent }) => {
   const editorRef = useRef(null);
   const initSocketRef = useRef(initSocket);
 
@@ -29,7 +29,7 @@ const EditorCom = ({ roomId, onCodeChange, socketId }) => {
         indentWithTabs: true,
       });
       editorRef.current.setSize("100%", "100%");
-      editorRef.current.setValue("Text Here");
+      editorRef.current.setValue("Hello World");
       var option = document.getElementById("Lang_Option");
 
       option.addEventListener("change", function () {
@@ -104,7 +104,8 @@ const EditorCom = ({ roomId, onCodeChange, socketId }) => {
     if (!editorRef.current) {
       init();
     }
-
+    setEditorRefToParent(editorRef.current);
+    
   }, []);
 
   return <textarea id="realtimeEditor" />;

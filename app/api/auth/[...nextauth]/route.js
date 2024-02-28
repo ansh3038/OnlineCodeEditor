@@ -3,7 +3,7 @@ import GithubProvider from "next-auth/providers/github";
 import CredentialsProvider from "next-auth/providers/credentials";
 import connectMongoDB from "@/app/lib/mongodb";
 import User from "@/app/models/user";
-import bcrypt from bcrypt;
+import bcrypt from "bcrypt";
 
 export const authOptions = {
   providers: [
