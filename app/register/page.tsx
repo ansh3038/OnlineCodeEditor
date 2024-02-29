@@ -1,12 +1,12 @@
 "use client"
-import { redirect } from 'next/navigation';
+import { redirect, useRouter } from 'next/navigation';
 import { useState } from 'react';
 
 const RegisterForm = () => {
   const [username, setUsername] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
-
+  const router = useRouter();
   const handleSubmit = async (e: { preventDefault: () => void; }) => {
     e.preventDefault();
     try {
@@ -31,7 +31,7 @@ const RegisterForm = () => {
         console.error('Error during registration:', error);
       }
 
-    redirect("/");
+    router.push('/');
     };
 
   return (
