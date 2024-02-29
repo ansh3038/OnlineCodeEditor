@@ -5,6 +5,7 @@ import { useState } from "react";
 import { Button } from "react-bootstrap";
 import { v4 as uuidV4 } from "uuid";
 import Form from "react-bootstrap/Form";
+import NavBar from "./components/navbar";
 export default function Home() {
   const [roomId, setRoomId] = useState("");
   const route = useRouter();
@@ -23,6 +24,7 @@ export default function Home() {
 
   return (
     <>
+      
       <div className="flex items-center justify-center h-screen ">
         <div className="w-30 mx-10">
           <Form.Control
