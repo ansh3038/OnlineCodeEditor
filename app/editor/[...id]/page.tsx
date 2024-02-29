@@ -17,7 +17,7 @@ function Editor() {
   const [clients, setClients] = useState([]);
   const { data: session } = useSession();
   const [socketId, setSocketId] = useState(initSocket.id);
-  // console.log(id[0]);
+
   useEffect(() => {
     const init = () => {
       socketRef.current.on("connect_error", (err) => handleError(err));
@@ -46,7 +46,7 @@ function Editor() {
           });
         }
       );
-      socketRef.current.on("hellohello", ({ code }) => {});
+      // socketRef.current.on("hellohello", ({ code }) => {});
     };
     init();
   }, [socketRef.current]);
@@ -102,7 +102,7 @@ function Editor() {
         if (parentEditorRef.current) {
           parentEditorRef.current.setValue(code);
         }
-        setCode(code);
+        // setCode(code);
       }
     } catch (e) {
       console.log("Error loading code:", e);

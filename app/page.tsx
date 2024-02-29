@@ -1,5 +1,4 @@
 "use client";
-import Image from "next/image";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
@@ -7,9 +6,6 @@ import { Button } from "react-bootstrap";
 import { v4 as uuidV4 } from "uuid";
 import Form from "react-bootstrap/Form";
 import NavBar from "./components/navbar";
-
-
-
 export default function Home() {
   const [roomId, setRoomId] = useState("");
   const route = useRouter();

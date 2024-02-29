@@ -1,5 +1,5 @@
 "use client"
-import { redirect } from 'next/navigation';
+import { redirect, useRouter } from 'next/navigation';
 import { useState } from 'react';
 import { useRouter } from 'next/navigation';
 
@@ -8,7 +8,6 @@ const RegisterForm = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const route=useRouter();
-
   const handleSubmit = async (e: { preventDefault: () => void; }) => {
     e.preventDefault();
     try {
@@ -35,7 +34,7 @@ const RegisterForm = () => {
         console.error('Error during registration:', error);
       }
 
-    //redirect("/");
+    router.push('/');
     };
 
   return (
