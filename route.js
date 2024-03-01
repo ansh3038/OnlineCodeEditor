@@ -58,6 +58,16 @@ io.on("connection", (socket) => {
     io.to(socketId).emit(ACTIONS.CODE_CHANGE, { code });
   });
 
+  socket.on("befDisconnect", (roomId) => {
+    console.log("event triggered");
+    socket.in(roomId).emit(ACTIONS.DISCONNECTED, {
+      socketId: socket.id,
+      username: userSocketMap[socket.id],
+    });
+    delete userSocketMap[socket.id];
+    socket.leave(roomId);
+  });
+
   socket.on("disconnecting", () => {
     const rooms = [...socket.rooms];
     rooms.forEach((roomId) => {

@@ -6,6 +6,7 @@ import { useEffect, useRef, useState } from "react";
 import { initSocket } from "@/app/components/socket/config";
 import ACTIONS from "@/app/actions";
 import Client from "@/app/components/Client";
+import Link from "next/link";
 
 function Editor() {
   const socketRef = useRef(initSocket);
@@ -15,7 +16,7 @@ function Editor() {
   const [clients, setClients] = useState([]);
   const { data: session } = useSession();
   const [socketId, setSocketId] = useState(initSocket.id);
-
+  const roomId = id[0];
   useEffect(() => {
     const init = () => {
       socketRef.current.on("connect_error", (err) => handleError(err));
@@ -44,10 +45,33 @@ function Editor() {
           });
         }
       );
+
+      socketRef.current.on(
+        ACTIONS.DISCONNECTED,
+        ({ socketId, username }) => {
+            // toast.success(`${username} left the room.`);
+            setClients((prev) => {
+                return prev.filter(
+                    (client) => client.socketId !== socketId
+                );
+            });
+        }
+    );
       // socketRef.current.on("hellohello", ({ code }) => {});
     };
     init();
+    return () =>{
+    }
   }, [socketRef.current]);
+
+  useEffect(()=>{
+
+    return () =>{
+      socketRef.current.emit("befDisconnect",{roomId});
+      console.log("event triggered");
+      // socketRef.current.disconnect();
+    }
+  },[])
 
   //Checking whether user signed in or not
   if (!session || !session?.user) {
@@ -120,9 +144,9 @@ function Editor() {
             </div>
           </div>
           <button className="btn copyBtn">Copy ROOM ID</button>
-          <a href="/">
+          <Link href="/">
             <button className="btn leaveBtn">Go Back</button>
-          </a>
+          </Link>
         </div>
         <div className="EditorWrap h-screen">
           <div className="Language-Theme d-flex  justify-content-between mb-1 mt-1">
