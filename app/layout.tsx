@@ -6,6 +6,7 @@ import { getServerSession } from "next-auth";
 import SessionProvider from "./components/sessionProvider";
 import NavBar from "./components/navbar";
 import 'core-js/stable';
+import { Toaster } from 'react-hot-toast';
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -26,6 +27,20 @@ export default async function RootLayout({
       <body className={inter.className}>
         <SessionProvider session={session}>
           <NavBar />
+          <div>
+                <Toaster
+                    position="top-right"
+                    toastOptions={{
+                        success: {
+                            theme: {
+                                primary: '#4aed88',
+                            },
+                        },
+                    }}
+                ></Toaster>
+            </div>
+
+
           {children}
         </SessionProvider>
       </body>
