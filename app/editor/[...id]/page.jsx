@@ -79,7 +79,7 @@ function Editor() {
     redirect("/api/auth/signin");
   }
 
-  const setEditorRefToParent = (editorRef: null) => {
+  const setEditorRefToParent = (editorRef) => {
     parentEditorRef.current = editorRef;
   };
 
@@ -149,7 +149,7 @@ function Editor() {
           <div className="leftInner">
             <h3>Connected</h3>
             <div className="clientList max-h-[83vh] overflow-y-auto">
-              {clients.map((client: { socketId: any; username: any }) => (
+              {clients.map((client) => (
                 <Client key={client.socketId} username={client.username.name} />
               ))}
             </div>
@@ -203,7 +203,7 @@ function Editor() {
           </div>
           <EditorCom
             roomId={id[0]}
-            onCodeChange={(code: any) => {
+            onCodeChange={(code) => {
               codeRef.current = code;
             }}
             socketId={socketId}
@@ -216,7 +216,8 @@ function Editor() {
 }
 
 export default Editor;
-function setCode(code: any) {
+
+function setCode(code) {
   throw new Error("Function not implemented.");
 }
 

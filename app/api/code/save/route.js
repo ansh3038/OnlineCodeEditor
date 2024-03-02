@@ -1,7 +1,6 @@
 import connectMongoDB from "@/app/lib/mongodb"
 import Code from "@/app/models/code"
-import { Console } from "console";
-import { NextRequest, NextResponse } from "next/server";
+import { NextResponse } from "next/server";
 
 export async function POST(request){
     try{

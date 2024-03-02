@@ -1,14 +1,12 @@
 "use client"
-import { redirect, useRouter } from 'next/navigation';
-import { useState } from 'react';
 import { useRouter } from 'next/navigation';
-
+import { useState } from 'react';
 const RegisterForm = () => {
   const [username, setUsername] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const route=useRouter();
-  const handleSubmit = async (e: { preventDefault: () => void; }) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
     try {
         const response = await fetch('/api/user/register', {
