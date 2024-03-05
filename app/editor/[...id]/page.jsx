@@ -9,6 +9,7 @@ import ACTIONS from "@/app/actions";
 import Client from "@/app/components/Client";
 import Link from "next/link";
 
+
 function Editor() {
   const socketRef = useRef(initSocket);
   const parentEditorRef = useRef(null);
@@ -18,6 +19,7 @@ function Editor() {
   const { data: session } = useSession();
   const [socketId, setSocketId] = useState(initSocket.id);
   const roomId = id[0];
+  const route=useRouter();
   useEffect(() => {
     const init = () => {
       socketRef.current.on("connect_error", (err) => handleError(err));
@@ -30,8 +32,9 @@ function Editor() {
       socketRef.current.emit(ACTIONS.JOIN, {
         roomId,
         username: session?.user,
+        
       });
-
+      
       socketRef.current.on("socketID", (socket) => {
         setSocketId(socket);
       });
@@ -39,6 +42,10 @@ function Editor() {
       socketRef.current.on(
         ACTIONS.JOINED,
         ({ clients, username, socketId }) => {
+          if(username.name!==session.user?.name){
+            console.log(username.name);
+            toast.success(`${username?.name} joined the room.`);
+            }
           setClients(clients);
           socketRef.current.emit(ACTIONS.SYNC_CODE, {
             code: codeRef.current,
@@ -50,27 +57,30 @@ function Editor() {
       socketRef.current.on(
         ACTIONS.DISCONNECTED,
         ({ socketId, username }) => {
-            // toast.success(`${username} left the room.`);
-            setClients((prev) => {
-                return prev.filter(
-                    (client) => client.socketId !== socketId
-                );
+          console.log(username);
+          toast.success(`${username?.name} have  left the room.`);
+          setClients((prev) => {
+            return prev.filter(
+              (client) => client.socketId !== socketId
+              );
             });
+          }
+          );
+          // socketRef.current.on("hellohello", ({ code }) => {});
+        };
+        init();
+        return () =>{
+          
         }
-    );
-      // socketRef.current.on("hellohello", ({ code }) => {});
-    };
-    init();
-    return () =>{
-    }
-  }, [socketRef.current]);
-
-  useEffect(()=>{
-
-    return () =>{
-      socketRef.current.emit("befDisconnect",{roomId});
-      console.log("event triggered");
-      // socketRef.current.disconnect();
+      }, [socketRef.current]);
+      
+      useEffect(()=>{
+        
+        return () =>{
+          socketRef.current.emit("befDisconnect",{roomId});
+          console.log("event triggered");
+        
+       //socketRef.current.disconnect();
     }
   },[])
 
@@ -141,6 +151,13 @@ function Editor() {
         console.error(err);
     }
 }
+  function leave(){
+    console.log("leave");
+
+    socketRef.current.emit("befDisconnect",{roomId});
+    route.push('/');
+
+  }
 
   return (
     <>
@@ -150,14 +167,14 @@ function Editor() {
             <h3>Connected</h3>
             <div className="clientList max-h-[83vh] overflow-y-auto">
               {clients.map((client) => (
-                <Client key={client.socketId} username={client.username.name} />
-              ))}
+                <Client key={client.socketId} username={client?.username?.name} />
+                ))}
             </div>
           </div>
-          <button className="btn copyBtn" onClick={copyRoomId}>Copy ROOM ID</button>
-          <Link href="/">
-            <button className="btn leaveBtn">Go Back</button>
-          </Link>
+                <button className="btn copyBtn" onClick={()=>copyRoomId()}>Copy ROOM ID</button>
+              
+                  <button className="btn leaveBtn" onClick={()=> leave()}>Go Back</button>
+              
         </div>
         <div className="EditorWrap h-screen">
           <div className="Language-Theme d-flex  justify-content-between mb-1 mt-1">

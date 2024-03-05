@@ -32,7 +32,7 @@ const RegisterForm = () => {
         console.error('Error during registration:', error);
       }
 
-    router.push('/');
+    //router.push('/');
     };
 
   return (
