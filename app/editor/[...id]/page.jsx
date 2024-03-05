@@ -29,6 +29,7 @@ function Editor() {
         redirect("/");
       }
       const roomId = id[0];
+
       socketRef.current.emit(ACTIONS.JOIN, {
         roomId,
         username: session?.user,
@@ -42,8 +43,8 @@ function Editor() {
       socketRef.current.on(
         ACTIONS.JOINED,
         ({ clients, username, socketId }) => {
+          console.log(username);
           if(username.name!==session.user?.name){
-            console.log(username.name);
             toast.success(`${username?.name} joined the room.`);
             }
           setClients(clients);
@@ -98,6 +99,7 @@ function Editor() {
     console.log(session.user?.name);
     try {
       const username = session?.user?.name;
+      toast.success(`Code Saved`);
       const code = codeRef.current;
       console.log("code ", code);
       const response = await fetch("/api/code/save", {
@@ -119,6 +121,7 @@ function Editor() {
     console.log("load function called");
     const username = session.user?.name;
     try {
+      
       const response = await fetch(`/api/code/load`, {
         method: "POST",
         headers: {
@@ -129,13 +132,22 @@ function Editor() {
         }),
       });
 
-      if (response) {
+      if (response.ok) {
         const { code } = await response.json();
         codeRef.current = code;
+        console.log(response.status);
         if (parentEditorRef.current) {
+          toast.success(`Code loaded succesfully`);
           parentEditorRef.current.setValue(code);
         }
         // setCode(code);
+      }
+      else {
+
+        // have added a case when we have not save any code before
+
+        toast.error(`You don't have any save code`);
+        console.log(`${response.status} save the code first`);
       }
     } catch (e) {
       console.log("Error loading code:", e);
