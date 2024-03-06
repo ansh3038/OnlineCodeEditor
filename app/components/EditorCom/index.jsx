@@ -28,7 +28,7 @@ const EditorCom = ({ roomId, onCodeChange, socketId, setEditorRefToParent }) => 
         lineNumbers: true,
         indentWithTabs: true,
       });
-       editorRef.current.setSize("100%", "100%");
+      editorRef.current.setSize("100%", "100%");
       editorRef.current.setValue("Hello World");
       var option = document.getElementById("Lang_Option");
 
