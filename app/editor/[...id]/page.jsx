@@ -43,6 +43,7 @@ function Editor() {
       socketRef.current.on(
         ACTIONS.JOINED,
         ({ clients, username, socketId }) => {
+
           console.log(username);
           if(username.name!==session.user?.name){
             toast.success(`${username?.name} joined the room.`);
@@ -137,7 +138,7 @@ function Editor() {
         codeRef.current = code;
         console.log(response.status);
         if (parentEditorRef.current) {
-          toast.success(`Code loaded succesfully`);
+          toast.success(`Code loaded succesfully!`);
           parentEditorRef.current.setValue(code);
         }
         // setCode(code);
@@ -146,8 +147,8 @@ function Editor() {
 
         // have added a case when we have not save any code before
 
-        
-        toast.error(`You don't have any save code`);
+
+        toast.error(`You don't have any saved code.`);
         console.log(`${response.status} save the code first`);
       }
     } catch (e) {
@@ -157,10 +158,10 @@ function Editor() {
   async function copyRoomId() {
     try {
         await navigator.clipboard.writeText(id);
-        toast.success('Room ID has been copied to your clipboard');
+        toast.success('Room ID has been copied to your clipboard.');
         console.log("copied");
     } catch (err) {
-        toast.error('Could not copy the Room ID');
+        toast.error('Could not copy the Room ID!!');
         console.error(err);
     }
 }
