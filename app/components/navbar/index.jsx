@@ -12,7 +12,7 @@ export default function NavBar() {
       <Navbar bg="primary" data-bs-theme="dark">
         <Container>
           <Navbar.Brand href="/">CodeView</Navbar.Brand>
-          <Nav className="ml-auto">
+          <Nav className="ml-auto h-full">
             {session ? (
                <> 
                 <User user={session}></User>
