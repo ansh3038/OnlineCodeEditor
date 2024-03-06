@@ -9,7 +9,6 @@ import ACTIONS from "@/app/actions";
 import Client from "@/app/components/Client";
 import Link from "next/link";
 
-
 function Editor() {
   const socketRef = useRef(initSocket);
   const parentEditorRef = useRef(null);
@@ -19,7 +18,6 @@ function Editor() {
   const { data: session } = useSession();
   const [socketId, setSocketId] = useState(initSocket.id);
   const roomId = id[0];
-  const route=useRouter();
   useEffect(() => {
     const init = () => {
       socketRef.current.on("connect_error", (err) => handleError(err));
@@ -29,13 +27,11 @@ function Editor() {
         redirect("/");
       }
       const roomId = id[0];
-
       socketRef.current.emit(ACTIONS.JOIN, {
         roomId,
         username: session?.user,
-        
       });
-      
+
       socketRef.current.on("socketID", (socket) => {
         setSocketId(socket);
       });
@@ -43,10 +39,6 @@ function Editor() {
       socketRef.current.on(
         ACTIONS.JOINED,
         ({ clients, username, socketId }) => {
-          console.log(username);
-          if(username.name!==session.user?.name){
-            toast.success(`${username?.name} joined the room.`);
-            }
           setClients(clients);
           socketRef.current.emit(ACTIONS.SYNC_CODE, {
             code: codeRef.current,
@@ -58,30 +50,27 @@ function Editor() {
       socketRef.current.on(
         ACTIONS.DISCONNECTED,
         ({ socketId, username }) => {
-          console.log(username);
-          toast.success(`${username?.name} have  left the room.`);
-          setClients((prev) => {
-            return prev.filter(
-              (client) => client.socketId !== socketId
-              );
+            // toast.success(`${username} left the room.`);
+            setClients((prev) => {
+                return prev.filter(
+                    (client) => client.socketId !== socketId
+                );
             });
-          }
-          );
-          // socketRef.current.on("hellohello", ({ code }) => {});
-        };
-        init();
-        return () =>{
-          
         }
-      }, [socketRef.current]);
-      
-      useEffect(()=>{
-        
-        return () =>{
-          socketRef.current.emit("befDisconnect",{roomId});
-          console.log("event triggered");
-        
-       //socketRef.current.disconnect();
+    );
+      // socketRef.current.on("hellohello", ({ code }) => {});
+    };
+    init();
+    return () =>{
+    }
+  }, [socketRef.current]);
+
+  useEffect(()=>{
+
+    return () =>{
+      socketRef.current.emit("befDisconnect",{roomId});
+      console.log("event triggered");
+      // socketRef.current.disconnect();
     }
   },[])
 
@@ -99,7 +88,6 @@ function Editor() {
     console.log(session.user?.name);
     try {
       const username = session?.user?.name;
-      toast.success(`Code Saved`);
       const code = codeRef.current;
       console.log("code ", code);
       const response = await fetch("/api/code/save", {
@@ -121,7 +109,6 @@ function Editor() {
     console.log("load function called");
     const username = session.user?.name;
     try {
-      
       const response = await fetch(`/api/code/load`, {
         method: "POST",
         headers: {
@@ -132,22 +119,13 @@ function Editor() {
         }),
       });
 
-      if (response.ok) {
+      if (response) {
         const { code } = await response.json();
         codeRef.current = code;
-        console.log(response.status);
         if (parentEditorRef.current) {
-          toast.success(`Code loaded succesfully`);
           parentEditorRef.current.setValue(code);
         }
         // setCode(code);
-      }
-      else {
-
-        // have added a case when we have not save any code before
-
-        toast.error(`You don't have any save code`);
-        console.log(`${response.status} save the code first`);
       }
     } catch (e) {
       console.log("Error loading code:", e);
@@ -163,13 +141,6 @@ function Editor() {
         console.error(err);
     }
 }
-  function leave(){
-    console.log("leave");
-
-    socketRef.current.emit("befDisconnect",{roomId});
-    route.push('/');
-
-  }
 
   return (
     <>
@@ -179,14 +150,14 @@ function Editor() {
             <h3>Connected</h3>
             <div className="clientList max-h-[83vh] overflow-y-auto">
               {clients.map((client) => (
-                <Client key={client.socketId} username={client?.username?.name} />
-                ))}
+                <Client key={client.socketId} username={client.username.name} />
+              ))}
             </div>
           </div>
-                <button className="btn copyBtn" onClick={()=>copyRoomId()}>Copy ROOM ID</button>
-              
-                  <button className="btn leaveBtn" onClick={()=> leave()}>Go Back</button>
-              
+          <button className="btn copyBtn" onClick={copyRoomId}>Copy ROOM ID</button>
+          <Link href="/">
+            <button className="btn leaveBtn">Go Back</button>
+          </Link>
         </div>
         <div className="EditorWrap h-screen">
           <div className="Language-Theme d-flex  justify-content-between mb-1 mt-1">

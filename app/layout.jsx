@@ -17,28 +17,24 @@ export default async function RootLayout({
   return (
     <html lang="en">
       <body className={inter.className}>
-      {/* <div style={{ height: '90vh', display: 'flex', flexDirection: 'column',overflow: 'auto' }}> */}
-      
         <SessionProvider session={session}>
           <NavBar />
           <div>
                 <Toaster
                     position="top-right"
                     toastOptions={{
-                      success: {
-                        theme: {
-                          primary: '#4aed88',
+                        success: {
+                            theme: {
+                                primary: '#4aed88',
+                            },
                         },
-                      },
                     }}
-                    ></Toaster>
+                ></Toaster>
             </div>
 
 
           {children}
-          
         </SessionProvider>
-                    {/* </div> */}
       </body>
     </html>
   );
