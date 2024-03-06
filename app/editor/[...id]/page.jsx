@@ -148,7 +148,7 @@ function Editor() {
         // have added a case when we have not save any code before
 
 
-        toast.error(`You don't have any saved code.`);
+        toast.error(`You don't have any save code.`);
         console.log(`${response.status} save the code first`);
       }
     } catch (e) {
@@ -158,10 +158,10 @@ function Editor() {
   async function copyRoomId() {
     try {
         await navigator.clipboard.writeText(id);
-        toast.success('Room ID has been copied to your clipboard.');
+        toast.success('Room ID has been copied to your clipboard');
         console.log("copied");
     } catch (err) {
-        toast.error('Could not copy the Room ID!!');
+        toast.error('Could not copy the Room ID');
         console.error(err);
     }
 }

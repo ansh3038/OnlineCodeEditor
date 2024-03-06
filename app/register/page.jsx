@@ -1,7 +1,6 @@
 "use client"
 import { useRouter } from 'next/navigation';
 import { useState } from 'react';
-import toast from 'react-hot-toast';
 const RegisterForm = () => {
   const [username, setUsername] = useState('');
   const [email, setEmail] = useState('');
@@ -23,20 +22,17 @@ const RegisterForm = () => {
         });
   
         if (response.ok) {
-          toast.success('You have successfully registered. Please Login Now!');
           route.push(`/`);
           // console.log('Registration successful!');
 
         } else {
-          toast.error("Registration failed. Please try again!");
            console.error('Registration failed:', await response.text());
         }
       } catch (error) {
-        toast.error("Registration failed. Please try again!");
         console.error('Error during registration:', error);
       }
 
-    //router.push('/');
+    router.push('/');
     };
 
   return (
