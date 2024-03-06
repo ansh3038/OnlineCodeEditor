@@ -1,20 +1,14 @@
- @tailwind base;
+@tailwind base;
 @tailwind components;
 @tailwind utilities;
 
   /* html{
     background-color: black;
   } */
-  /* .body{
-    height: 100vh;
-    overflow: hidden;
-  } */
- 
-  
   .mainWrap {
     display: grid;
     grid-template-columns: 230px 1fr;
-    height: 100%;
+    height: 100vh;
   }
 
 .btn {
@@ -69,4 +63,4 @@
   width: 100%;
   margin-top: 20px;
   background: blue;
-} 
+}

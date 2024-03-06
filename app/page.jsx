@@ -48,7 +48,7 @@ export default function Home() {
       <footer className="flex items-center justify-content-center flex-col">
         Built by &nbsp;
         <Link href="https://github.com/ansh3038">Ansh Singla</Link>
-        <Link href="https://github.com/Naman1604">Naman Sharma</Link>
+        <Link href="">Naman Sharma</Link>
       </footer>
     </>
   );
