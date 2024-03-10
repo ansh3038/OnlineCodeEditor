@@ -30,7 +30,7 @@ export default function Home() {
           <Form.Control
             type="text"
             id="inputLink"
-            className="flex bg-slate-600"
+            className="flex bg-slate-50"
             placeholder="Enter Code"
             value={roomId}
             onChange={(e) => setRoomId(e.target.value)}

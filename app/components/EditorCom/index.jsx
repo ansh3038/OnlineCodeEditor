@@ -30,6 +30,7 @@ const EditorCom = ({ roomId, onCodeChange, socketId, setEditorRefToParent }) => 
       });
       editorRef.current.setSize("100%", "100%");
       editorRef.current.setValue("Hello World");
+     
       var option = document.getElementById("Lang_Option");
 
       option.addEventListener("change", function () {

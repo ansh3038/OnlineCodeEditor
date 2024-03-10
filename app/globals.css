@@ -63,4 +63,17 @@
   width: 100%;
   margin-top: 20px;
   background: blue;
+
+  
 }
+
+/* @media only screen and (max-width: 480px) {
+  section {
+    display: flex;
+    width: 100%;
+    flex-direction: column;
+  }
+  article { order: 1; }
+  nav     { order: 2; }
+  aside   { order: 3; }
+} */
