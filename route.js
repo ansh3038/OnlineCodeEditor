@@ -27,25 +27,26 @@ io.on("connection", (socket) => {
   socket.on(ACTIONS.JOIN, ({ roomId, username }) => {
     console.log("join ",roomId);
     userSocketMap[socket.id] = username;
-    // console.log(userSocketMap);
+     console.log(userSocketMap);
     socket.join(roomId);
     const clients = getAllConnectedClients(roomId);
-    // console.log(clients);
+    console.log(clients);
     clients.forEach(({ socketId }) => {
-      // console.log(socketId," ")
+       console.log(socketId," ")
       io.to(socketId).emit(ACTIONS.JOINED, {
         clients,
         username,
         socketId: socket.id,
       });
+      
     });
 
   });
 
   socket.on(ACTIONS.CODE_CHANGE, ({ roomId, code, socketId }) => {
-    // console.log("code change",roomId);
+     console.log("code change",roomId);
     const clients = getAllConnectedClients(roomId);
-    // console.log(socket.id);
+     console.log(socket.id);
     socket.broadcast.to(roomId).emit("codeset", { code });
   });
 

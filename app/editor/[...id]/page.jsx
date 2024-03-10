@@ -177,17 +177,33 @@ function Editor() {
     <>
       <div className="mainWrap">
         <div className="leftSide">
-          <div className="leftInner">
-            <h3>Connected</h3>
-            <div className="clientList max-h-[83vh] overflow-y-auto">
+              <button
+                  type="button"
+                  className="btn btn-primary mt-2"
+                  onClick={() => copyRoomId()}
+                >
+                  Copy Room Id
+              </button>
+              
+              <button
+                  className="btn btn-primary  mt-3"
+                  type="button"
+                  onClick={() => leave()}
+                >
+                  Go Back
+              </button>
+             
+          <div className="leftInner mt-1 border border-1">
+          <p class="h2   underline underline-offset-8 ">Connected</p>
+            <div className="clientList max-h-[83vh] overflow-y-auto mt-1">
               {clients.map((client) => (
                 <Client key={client.socketId} username={client?.username?.name} />
                 ))}
             </div>
           </div>
-                <button className="btn copyBtn" onClick={()=>copyRoomId()}>Copy ROOM ID</button>
-              
-                  <button className="btn leaveBtn" onClick={()=> leave()}>Go Back</button>
+          
+          
+          
               
         </div>
         <div className="EditorWrap h-screen">
